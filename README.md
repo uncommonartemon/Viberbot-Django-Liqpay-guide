@@ -129,7 +129,7 @@ Next add sellers and products. For example, I will add two sellers, as well as 2
 ![Screenshot_3](https://github.com/uncommonartemon/Viberbot-Django-Liqpay/assets/51698182/03b5aba6-dfc1-4e86-b3f1-e7baf65b8543)
 
 Done. on the product and seller page in the admin panel, we see a table like this :
-
+⋅⋅⋅
 ![Screenshot_4](https://github.com/uncommonartemon/Viberbot-Django-Liqpay/assets/51698182/2356eecc-20ae-41b5-b275-55ea34acc973)
 
 On the right side you will see links for the image. To make the links to the image available in the admin (and not only in the admin, but also in the future for rest requests) - open project/urls.py and modernize it a bit:
