@@ -122,14 +122,15 @@ py manage.py createsuperuser
 ```
 After your registration, start the server and go to "http://127.0.0.1:8000/admin/" or "http://localhost:8000/admin/". authorize.
 If everything is done successfully, we will see something similar:
-![Screenshot_2](https://github.com/uncommonartemon/viberbot/assets/51698182/f63efd8a-b557-425e-9a96-8c2d0adb687b)
+![Screenshot_2](https://github.com/uncommonartemon/Viberbot-Django-Liqpay/assets/51698182/cb4a7d14-0bca-4152-989f-764ff7ae16ef)
 
 Next add sellers and products. For example, I will add two sellers, as well as 2 products for each seller. 
 
-![Screenshot_3](https://github.com/uncommonartemon/viberbot/assets/51698182/8526b5d8-a4b8-42dd-bf93-fdfc84ac236a)
+![Screenshot_3](https://github.com/uncommonartemon/Viberbot-Django-Liqpay/assets/51698182/03b5aba6-dfc1-4e86-b3f1-e7baf65b8543)
 
 Done. on the product and seller page in the admin panel, we see a table like this :
-![Screenshot_4](https://github.com/uncommonartemon/viberbot/assets/51698182/26403f95-d5f3-4579-b350-bbcea575223c)
+
+![Screenshot_4](https://github.com/uncommonartemon/Viberbot-Django-Liqpay/assets/51698182/2356eecc-20ae-41b5-b275-55ea34acc973)
 
 On the right side you will see links for the image. To make the links to the image available in the admin (and not only in the admin, but also in the future for rest requests) - open project/urls.py and modernize it a bit:
 ```python
