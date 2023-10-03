@@ -569,3 +569,4 @@ Then generate order_id using order_number() : the function returns a set of numb
 Next we use the liqpay package to uniquely sign and encode it, and then send it all to "https://www.liqpay.ua/api/3/checkout" at once.
 If liqpay has successfully processed everything, it will return a reply with a payment link. We will immediately create a keyboard with a button-link ("ActionType": "open-url") to the link returned by liqpay ("ActionBody": response.url).
 
+That's it, I hope my humble guide helped you in some way 
