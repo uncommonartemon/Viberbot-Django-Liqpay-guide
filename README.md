@@ -569,4 +569,8 @@ Then generate order_id using order_number() : the function returns a set of numb
 Next we use the liqpay package to uniquely sign and encode it, and then send it all to "https://www.liqpay.ua/api/3/checkout" at once.
 If liqpay has successfully processed everything, it will return a reply with a payment link. We will immediately create a keyboard with a button-link ("ActionType": "open-url") to the link returned by liqpay ("ActionBody": response.url).
 
+![Screenshot_8](https://github.com/uncommonartemon/Viberbot-Django-Liqpay/assets/51698182/d97c75f8-a267-41e0-b8de-29b779e2144f)
+![Screenshot_9](https://github.com/uncommonartemon/Viberbot-Django-Liqpay/assets/51698182/4b5a5351-6166-4a05-a570-54b37640c963)
+
+
 That's it, I hope my humble guide helped you in some way 
