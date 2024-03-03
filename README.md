@@ -1,4 +1,4 @@
-Viber bot in django + liqpay payment system. shop simplified example
+# Viber bot in django + liqpay payment system. shop simplified example
 
 > Python 3.11.4, other dependencies can be found in requireme. Full documentation for the bot- [viber api](https://developers.viber.com/docs/api/rest-bot-api/)
 ---
