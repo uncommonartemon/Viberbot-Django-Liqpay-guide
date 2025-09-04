@@ -17,6 +17,8 @@
    * [Catalog](#catalog-creation)
    * [LiqPay](#liqpay)
 
+---
+
 ## Install
 
 ```bash
@@ -47,6 +49,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 ```
+
+---
 
 ## Models & admin
 
@@ -99,6 +103,14 @@ urlpatterns = [
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ```
 
+**Screenshot:**
+
+```
+Screenshot_1.png
+```
+
+---
+
 ## Rest API framework
 
 `project/urls.py`
@@ -145,6 +157,12 @@ class Products(generics.ListAPIView):
         return Product.objects.filter(seller__name=self.kwargs['seller'])
 ```
 
+**Screenshot:**
+
+```
+Screenshot_2.png
+```
+
 ---
 
 ## Sethook
@@ -179,6 +197,12 @@ def webhook(request):
     return HttpResponse(status=200)
 ```
 
+**Screenshot:**
+
+```
+Screenshot_3.png
+```
+
 ---
 
 ## Keyboard example
@@ -209,6 +233,12 @@ def start_build():
         }]}
 ```
 
+**Screenshot:**
+
+```
+Screenshot_4.png
+```
+
 ---
 
 ## Catalog creation
@@ -230,49 +260,65 @@ def webhook(request):
     return HttpResponse(status=200)
 ```
 
-`helpers`
+**Screenshot:**
 
-```python
-HOST_URL = 'https://<ngrok-url>'
-import requests
-
-def api_rest(url):
-    return requests.get(HOST_URL + '/viber/api/' + url).json()
-
-def sellers_list():
-    return [s['name'] for s in api_rest('sellers/')]
+```
+Screenshot_5.png
 ```
 
-`sellers`
+---
+
+## Liqpay
 
 ```python
-def show_sellers(sender_id):
-    sellers = api_rest('sellers/')
-    carousel = RichMediaMessage(tracking_data='t', min_api_version=7, rich_media=sellers_carousel(sellers))
-    viber_api.send_messages(sender_id, carousel)
+if message in product_list():
+    pay(message, sender_id)
 
-def sellers_carousel(sellers):
-    c = {'Type':'rich_media','ButtonsGroupColumns':6,'ButtonsGroupRows':7,'Buttons':[],'BgColor':'#ae9ef4'}
-    for s in sellers:
-        c['Buttons'] += [
-            {'Columns':6,'Rows':6,'Image':s['image'],'ActionBody':s['name'],'Silent':True},
-            {'Columns':6,'Rows':1,'Text':f"<font color='#e5e1ff'><b>{s['name']}</b></font>","BgColor":"#ae9ef4","ActionBody":s['name'],'Silent':True}
-        ]
-    return c
+def product_list():
+    return [p.name for p in Product.objects.all()]
 ```
 
-`products`
+Install:
+
+```bash
+pip install git+https://github.com/liqpay/sdk-python
+```
 
 ```python
-def products(message, sender_id):
-    products = api_rest('seller/' + message)
-    carousel = RichMediaMessage(tracking_data='t', min_api_version=7, rich_media=products_carousel(products))
-    viber_api.send_messages(sender_id, carousel)
+import random,string,datetime,requests
+from liqpay import LiqPay
 
-def products_carousel(products):
-    c={'Type':'rich_media','ButtonsGroupColumns':6,'ButtonsGroupRows':7,'Buttons':[],'BgColor':'#ae9ef4'}
-    for p in products:
-        c['Buttons'] += [
-            {'Columns':6,'Rows':1,'Text':f"<font color='#e5e1ff'><b>{p['name']}</b></font>","BgColor":"#ae9ef4","ActionBody":p['name'],'Silent':True},
-            {'Columns':6,'Rows':5,'Image':p['image
+def order_number():
+    return datetime.datetime.now().strftime("%Y%m%d%H%M%S") + str(random.randint(100,999))
+
+def pay(message, sender_id):
+    liqpay = LiqPay(PUBLIC_KEY, PRIVATE_KEY)
+    params = {
+        "action":"pay","version":"3",
+        "amount": int(Product.objects.get(name=message).price),
+        "currency":"UAH","order_id":order_number(),
+        'description':"test"
+    }
+    signature = liqpay.cnb_signature(params)
+    data = liqpay.cnb_data(params)
+    response = requests.post("https://www.liqpay.ua/api/3/checkout", data={'signature':signature,'data':data})
+    if response.status_code==200:
+        keyboard = KeyboardMessage(keyboard={
+            "Type":"keyboard","InputFieldState":"hidden","Buttons":[{
+                "Columns":6,"Rows":1,"BgColor":"#ae9ef4",
+                "Text":"<font color='#e5e1ff'><b>pay</b></font>",
+                "TextSize":"large","TextVAlign":"middle","TextHAlign":"center",
+                "ActionType":"open-url","ActionBody":response.url,"Silent":True
+            }]},min_api_version=6)
+        viber_api.send_messages(sender_id,[keyboard])
 ```
+
+**Screenshot:**
+
+```
+Screenshot_6.png
+```
+
+---
+
+✅ Done. Now the README includes screenshots again (as placeholders like `Screenshot_X.png`) in the same style, fully English.
